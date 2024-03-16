@@ -1,114 +1,20 @@
-import { PrismaClient } from '@prisma/client/extension'
+import { PrismaClient } from '@prisma/client/edge';
 import { withAccelerate } from '@prisma/extension-accelerate'
 import { Hono } from 'hono'
+import { sign, decode, verify } from 'hono/jwt';
+import { userRouter } from './routes/userRouter';
+import { blogRouter } from './routes/blogRouter';
 
 const app = new Hono<{
   Bindings:{
-    DATABASE_URL:string
+    DATABASE_URL:string,
+    JWT_SECRET:string
   }
-}>()
+}>();
 
-app.post('/api/v1/user/signup', async (c) => {
-  const prisma = new PrismaClient({
-    dataasourceUrl:c.env.DATABASE_URL,
-  }).$extends(withAccelerate());
+app.route("/api/v1/user", userRouter)
+app.route("/api/v1/blog", blogRouter)
 
-  try {
-    
-  } catch (error) {
-    console.log(error)
-    c.json({
-      msg:"Invalid",
-      err:error
-    })
-  }
 
-  return c.text('Hello Hono!')
-})
-app.post('/api/v1/user/signin', async (c) => {
-  const prisma = new PrismaClient({
-    dataasourceUrl:c.env.DATABASE_URL,
-  }).$extends(withAccelerate());
-
-  try {
-    
-  } catch (error) {
-    console.log(error)
-    c.json({
-      msg:"Invalid",
-      err:error
-    })
-  }
-
-  return c.text('Hello Hono!')
-})
-app.post('/api/v1/blog', async (c) => {
-  const prisma = new PrismaClient({
-    dataasourceUrl:c.env.DATABASE_URL,
-  }).$extends(withAccelerate());
-
-  try {
-    
-  } catch (error) {
-    console.log(error)
-    c.json({
-      msg:"Invalid",
-      err:error
-    })
-  }
-
-  return c.text('Hello Hono!')
-})
-app.put('/api/v1/blog', async (c) => {
-  const prisma = new PrismaClient({
-    dataasourceUrl:c.env.DATABASE_URL,
-  }).$extends(withAccelerate());
-
-  try {
-    
-  } catch (error) {
-    console.log(error)
-    c.json({
-      msg:"Invalid",
-      err:error
-    })
-  }
-
-  return c.text('Hello Hono!')
-})
-app.get('/api/v1/blog/:id', async (c) => {
-  const prisma = new PrismaClient({
-    dataasourceUrl:c.env.DATABASE_URL,
-  }).$extends(withAccelerate());
-
-  try {
-    
-  } catch (error) {
-    console.log(error)
-    c.json({
-      msg:"Invalid",
-      err:error
-    })
-  }
-
-  return c.text('Hello Hono!')
-})
-app.get('/api/v1/blog/bulk', async (c) => {
-  const prisma = new PrismaClient({
-    dataasourceUrl:c.env.DATABASE_URL,
-  }).$extends(withAccelerate());
-
-  try {
-    
-  } catch (error) {
-    console.log(error)
-    c.json({
-      msg:"Invalid",
-      err:error
-    })
-  }
-
-  return c.text('Hello Hono!')
-})
 
 export default app
