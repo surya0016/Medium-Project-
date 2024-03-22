@@ -14,11 +14,12 @@ export const userRouter = new Hono<{
 
 userRouter.post('/signup', async (c) => {
     const body = await c.req.json();
-    const {success} = signupInput.safeParse(body);
-    if(!success){
+    const response = signupInput.safeParse(body);
+    if(!response.success){
         c.status(411);
         return c.json({
-            message:"Incorrect Input"
+            message:"Incorrect Input",
+            response
         })
     }
     const prisma = new PrismaClient({
